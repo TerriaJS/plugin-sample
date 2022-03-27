@@ -4,13 +4,15 @@
 
 This repo implements a sample TerriaJS plugin. It uses the experimental [terriajs-plugin-api](https://github.com/terriajs/plugin-api) to interface with the TerriaJS library.
 
-Terria plugins simply provide a means of building functionality for Terria outside of the main TerriaJS library. The additional functionality can be support for a new data source by implementing a new [catalog item type](#catalog-items). Or it can add a new feature to Terria by implementing a new UI [workflow](#workflow-tbd).
+Terria plugins simply provide a means of building functionality for Terria outside of the main TerriaJS library. The additional functionality can be support for a new data source by implementing a new [catalog item type](https://docs.terria.io/guide/connecting-to-data/catalog-items/). Or it can add a new feature to Terria by implementing a new UI [workflow](#workflow-tbd)(TBD).
 
 # Current status
 
 * The repo builds without errors inside a yarn workspace within the terriamap repo ([details on how to setup the workspace](#suggested-plugin-development-workflow)).
 
-* Outside the repo, the project builds and emits types but with errors. The errors are because the current TerriaJS bundle does not emit and export its types. (issue tracking this problem).
+* Outside a yarn workspace, the project builds and emits types but with errors. The errors are because the current TerriaJS bundle does not emit and export its types. (issue tracking this problem).
+
+* Packaging asset files is still a TODO.
 
 # Adding this plugin to your terriamap
 
