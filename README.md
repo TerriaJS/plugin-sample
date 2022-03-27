@@ -57,9 +57,9 @@ We currently suggest using yarn workspaces to develop plugins for terriamap. Fol
 
 ```bash
 cd terriamap/
-mkdir packages
-cd packages
-git clone https://github.com/terriajs/sample-plugin 
+git checkout plugins # checkout plugins branch
+mkdir -p packages
+git clone https://github.com/terriajs/sample-plugin packages/sample-plugin
 
 ```
 
