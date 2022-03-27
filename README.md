@@ -25,7 +25,7 @@ git checkout branch plugins
 
 ### Add this plugin as dependency to package.json
 ```bash
-yarn add https://github.com/terriajs/sample-plugin#0.0.1
+yarn add https://github.com/terriajs/plugin-sample#0.0.1-alpha.1
 ```
 
 ### Add plugin to `plugins.ts`
@@ -59,8 +59,7 @@ We currently suggest using yarn workspaces to develop plugins for terriamap. Fol
 cd terriamap/
 git checkout plugins # checkout plugins branch
 mkdir -p packages
-git clone https://github.com/terriajs/sample-plugin packages/sample-plugin
-
+git clone https://github.com/terriajs/plugin-sample packages/plugin-sample
 ```
 
 ### Add the plugin package to the [yarn workspace](https://classic.yarnpkg.com/lang/en/docs/workspaces/) settings of your terriamap `package.json` file.
@@ -75,7 +74,7 @@ Edit `package.json` for terriamap:
       "packages/terriajs",
       "packages/cesium",
       "packages/terriajs-server"
-      "packages/sample-plugin" // <-- sample-plugin added here
+      "packages/plugin-sample" // <-- plugin-sample added here
     ],
 ```
 
@@ -89,10 +88,10 @@ yarn install
 yarn run gulp watch 
 ```
 
-### Build sample-plugin
+### Build plugin-sample
 
 ```bash
-cd terriamap/packages/sample-plugin
+cd terriamap/packages/plugin-sample
 # Start a plugin build process that watches for file changes
 rollup -c rollup.config.ts -w
 ```
