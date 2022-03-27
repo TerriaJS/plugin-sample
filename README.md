@@ -51,7 +51,7 @@ Once the server is running visit http://localhost:3001 to load the app. You shou
 
 # Suggested plugin development workflow
 
-We currently suggest using yarn workspaces to develop plugins for terriamap. Follow these steps to to setup a yarn workspace for this plugin;
+We currently suggest using yarn workspaces to develop plugins for terriamap. Follow these steps to to setup a yarn workspace for this plugin:
 
 ### Checkout the plugin into packages folder
 
@@ -63,7 +63,7 @@ git clone https://github.com/terriajs/sample-plugin
 
 ```
 
-### Add the plugin package to the yarn workspace settings of your terriamap `package.json` file.
+### Add the plugin package to the [yarn workspace](https://classic.yarnpkg.com/lang/en/docs/workspaces/) settings of your terriamap `package.json` file.
 
 Edit `package.json` for terriamap:
 
