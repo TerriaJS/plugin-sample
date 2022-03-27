@@ -1,4 +1,4 @@
-🚧 Warning: This project is work-in-progress and things can break or be entirely scrapped without notice.
+<i>🚧 Warning: This project is work-in-progress and things can break or be entirely scrapped without notice.</i>
 
 # What?
 
