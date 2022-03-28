@@ -12,7 +12,10 @@ Terria plugins simply provide a means of building functionality for Terria outsi
 
 * Outside a yarn workspace, the project builds and emits types but with errors. The errors are because the current TerriaJS bundle does not emit and export its types. (issue tracking this problem).
 
-* Packaging asset files is still a TODO.
+# TODOs
+
+- [ ] Packaging asset files is still a TODO.
+- [ ] Figure out packaging of assets
 
 # Adding this plugin to your terriamap
 
