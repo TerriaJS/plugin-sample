@@ -28,7 +28,7 @@ git checkout plugins
 
 ### Add this plugin as dependency to package.json
 ```bash
-yarn add -W https://github.com/terriajs/plugin-sample#0.0.1-alpha.1
+yarn add -W 'terriajs-plugin-sample@0.0.1-alpha.1'
 ```
 
 ### Add plugin to `plugins.ts`
@@ -85,8 +85,8 @@ Edit `package.json` for terriamap:
    
    "dependencies": {
     "pm2": "^3.2.2",
-    "terriajs-plugin-api": "https://github.com/terriajs/plugin-api#0.0.1-alpha.1",
-    "terriajs-plugin-sample": "0.0.1", // <-- plugin-sample version changed to match the version in packages/plugin-sample/package.json
+    "terriajs-plugin-api": "0.0.1-alpha.1",
+    "terriajs-plugin-sample": "0.0.1-alpha.1", // <-- plugin-sample version changed to match the version in packages/plugin-sample/package.json
 ```
 
 ### Build terriamap 
