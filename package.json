@@ -6,6 +6,7 @@
   "types": "dist/index.d.ts",
   "repository": "https://github.com/terriajs/plugin-sample",
   "license": "Apache-2.0",
+  "prepublish": "rollup -c rollup.config.ts",
   "dependencies": {
     "terriajs-plugin-api": "0.0.1-alpha.1"
   },
