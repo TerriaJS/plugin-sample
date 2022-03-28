@@ -20,12 +20,12 @@ Terria plugins simply provide a means of building functionality for Terria outsi
 ```bash
 git clone https://github.com/terriajs/terriamap
 cd terriamap
-git checkout branch plugins
+git checkout plugins
 ```
 
 ### Add this plugin as dependency to package.json
 ```bash
-yarn add https://github.com/terriajs/plugin-sample#0.0.1-alpha.1
+yarn add -W https://github.com/terriajs/plugin-sample#0.0.1-alpha.1
 ```
 
 ### Add plugin to `plugins.ts`
@@ -44,6 +44,7 @@ Note: The file `plugins.ts` is in the terriamap project root directory.
 ```
 # From the terriamap directory run
 yarn run gulp build
+# Start terriamap web server
 yarn run start
 ```
 
