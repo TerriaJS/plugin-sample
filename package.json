@@ -4,10 +4,10 @@
   "description": "A sample terriajs plugin.",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "https://github.com/terriajs/sample-plugin",
+  "repository": "https://github.com/terriajs/plugin-sample",
   "license": "Apache-2.0",
   "dependencies": {
-    "terriajs-plugin-api": "https://github.com/terriajs/plugin-api#0.0.1-alpha.1"
+    "terriajs-plugin-api": "0.0.1-alpha.1"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.1.3",
