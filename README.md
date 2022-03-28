@@ -77,6 +77,13 @@ Edit `package.json` for terriamap:
       "packages/terriajs-server"
       "packages/plugin-sample" // <-- plugin-sample added here
     ],
+
+   ...
+   
+   "dependencies": {
+    "pm2": "^3.2.2",
+    "terriajs-plugin-api": "https://github.com/terriajs/plugin-api#0.0.1-alpha.1",
+    "terriajs-plugin-sample": "0.0.1", // <-- plugin-sample version changed to match the version in packages/plugin-sample/package.json
 ```
 
 ### Build terriamap 
