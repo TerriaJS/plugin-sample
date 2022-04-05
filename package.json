@@ -1,14 +1,14 @@
 {
   "name": "terriajs-plugin-sample",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.3",
   "description": "A sample terriajs plugin.",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/terriajs/plugin-sample",
   "license": "Apache-2.0",
-  "prepublish": "rollup -c rollup.config.ts",
+  "prepare": "rollup -c rollup.config.ts",
   "dependencies": {
-    "terriajs-plugin-api": "0.0.1-alpha.2"
+    "terriajs-plugin-api": "0.0.1-alpha.3"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.1.3",
