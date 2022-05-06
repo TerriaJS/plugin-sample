@@ -7,6 +7,8 @@ interface PropsType {
   viewState: ViewState;
 }
 
+// Note: we need to wrap this in observer() right now or else it results in a render loop.
+// Will have to debug that later.
 const TestTool: React.FC<PropsType> = observer((props: PropsType) => {
   return (
     <WorkflowPanel
