@@ -33,6 +33,7 @@ export default class BoxDrawingCatalogItem extends CatalogMemberMixin(
   MappableMixin(CreateModel(BoxDrawingCatalogItemTraits))
 ) {
   static readonly type = "box-drawing";
+  readonly type = BoxDrawingCatalogItem.type;
 
   private boxDrawing: BoxDrawing | undefined;
 
