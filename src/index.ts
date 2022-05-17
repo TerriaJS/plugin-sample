@@ -2,7 +2,6 @@ import createGuid from "terriajs-cesium/Source/Core/createGuid";
 import Rectangle from "terriajs-cesium/Source/Core/Rectangle";
 import {
   CommonStrata,
-  Icon,
   MapToolbar,
   Terria,
   TerriaPlugin,
@@ -10,6 +9,7 @@ import {
   UserDrawing,
   Workbench
 } from "terriajs-plugin-api";
+import cubeIcon from "assets/icons/cube.svg";
 import BoxDrawingCatalogItem from "./BoxDrawingCatalogItem";
 
 const plugin: TerriaPlugin = {
@@ -19,7 +19,7 @@ const plugin: TerriaPlugin = {
   register({ viewState, terria, workbench }: TerriaPluginContext) {
     let userDrawing: UserDrawing | undefined;
     const drawModeButton = MapToolbar.addModeButton(viewState, {
-      icon: Icon.GLYPHS.cube,
+      icon: cubeIcon,
       text: "Draw a 3D box",
       onUserEnterMode: () => {
         userDrawing = createUserRectangleDrawing(terria, rectangle => {

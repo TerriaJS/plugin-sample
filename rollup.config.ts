@@ -1,8 +1,7 @@
 import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
+import * as path from "path";
 import { terser } from "rollup-plugin-terser";
-
-const extensions = [".js", ".jsx", ".es6", ".es", ".mjs", ".ts", ".tsx"];
 
 // Paths to exclude from the bundle
 const externalPaths = [
@@ -18,6 +17,8 @@ export default {
     format: "esm",
     dir: "dist/"
   },
+  // preserveSymlinks is required to prevent rollup from expanding references to packages in yarn workspace to relative paths
+  preserveSymlinks: true,
   external: depPath => {
     // exclude files in exclusionList from the build pipeline
     return externalPaths.some(ext => {
@@ -30,5 +31,28 @@ export default {
       }
     });
   },
-  plugins: [nodeResolve({ extensions }), typescript(), terser()]
+  plugins: [nodeResolve(), resolveSvgIcons(), typescript(), terser()]
 };
+
+/**
+ * Resolve `asset/icons/*.svg` imports and transform it to be picked up by the terriamap webpack loader.
+ * See: "terriamap/buildprocess/configureWebpackForPlugins.js"
+ */
+function resolveSvgIcons() {
+  return {
+    name: "resolve-svg-icons",
+    resolveId(importee) {
+      // rewrite `assets/icons` path to absolute path
+      return importee.startsWith(path.join("assets", "icons"))
+        ? path.resolve("./", importee)
+        : null;
+    },
+    transform(code, id) {
+      // Transform icon asset files to require() the original svg file
+      const isIconAsset =
+        id.endsWith(".svg") &&
+        path.relative(path.join("assets", "icons"), path.dirname(id)) === "";
+      return isIconAsset ? { code: `export default require("${id}")` } : null;
+    }
+  };
+}
