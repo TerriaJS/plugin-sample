@@ -11,6 +11,7 @@ import {
 } from "terriajs-plugin-api";
 import cubeIcon from "assets/icons/cube.svg";
 import BoxDrawingCatalogItem from "./BoxDrawingCatalogItem";
+import TestTool from "./TestTool";
 
 const plugin: TerriaPlugin = {
   name: "Sample plugin",
@@ -22,11 +23,16 @@ const plugin: TerriaPlugin = {
       icon: cubeIcon,
       text: "Draw a 3D box",
       onUserEnterMode: () => {
-        userDrawing = createUserRectangleDrawing(terria, rectangle => {
-          create3dBoxItemFromRectangle(terria, workbench, rectangle);
-          drawModeButton.closeMode();
+        // userDrawing = createUserRectangleDrawing(terria, rectangle => {
+        //   create3dBoxItemFromRectangle(terria, workbench, rectangle);
+        //   drawModeButton.closeMode();
+        // });
+        // userDrawing.enterDrawMode();
+        viewState.openTool({
+          toolName: "My Tool",
+          getToolComponent: () => TestTool,
+          showCloseButton: false
         });
-        userDrawing.enterDrawMode();
       },
       onUserCloseMode: () => {
         userDrawing?.endDrawing();
