@@ -2,6 +2,7 @@ import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import * as path from "path";
 import { terser } from "rollup-plugin-terser";
+import packageJson from "./package.json";
 
 // Paths to exclude from the bundle
 const externalPaths = [
@@ -52,7 +53,15 @@ function resolveSvgIcons() {
       const isIconAsset =
         id.endsWith(".svg") &&
         path.relative(path.join("assets", "icons"), path.dirname(id)) === "";
-      return isIconAsset ? { code: `export default require("${id}")` } : null;
+
+      if (isIconAsset) {
+        const relativeIconPath = path.relative(path.join("."), id);
+        return {
+          code: `export default require("${packageJson.name}/${relativeIconPath}")`
+        };
+      } else {
+        return null;
+      }
     }
   };
 }
