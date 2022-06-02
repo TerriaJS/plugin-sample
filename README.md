@@ -14,8 +14,8 @@ Terria plugins simply provide a means of building functionality for Terria outsi
 
 # TODOs
 
-- [ ] Packaging asset files is still a TODO.
-- [ ] Figure out packaging of assets
+- [x] Packaging icon asset files.
+- [ ] Adding translation support
 
 # Adding this plugin to your terriamap
 
