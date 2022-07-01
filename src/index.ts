@@ -1,5 +1,6 @@
 import createGuid from "terriajs-cesium/Source/Core/createGuid";
 import Rectangle from "terriajs-cesium/Source/Core/Rectangle";
+import CesiumMath from "terriajs-cesium/Source/Core/Math";
 import {
   CommonStrata,
   MapToolbar,
@@ -11,6 +12,7 @@ import {
 } from "terriajs-plugin-api";
 import cubeIcon from "assets/icons/cube.svg";
 import BoxDrawingCatalogItem from "./BoxDrawingCatalogItem";
+import GeoJsonCatalogItem from "terriajs/lib/Models/Catalog/CatalogItems/GeoJsonCatalogItem";
 
 const plugin: TerriaPlugin = {
   name: "Sample plugin",
@@ -23,7 +25,8 @@ const plugin: TerriaPlugin = {
       text: "Draw a 3D box",
       onUserEnterMode: () => {
         userDrawing = createUserRectangleDrawing(terria, rectangle => {
-          create3dBoxItemFromRectangle(terria, workbench, rectangle);
+          create3dGeojsonItemFromRectangle(terria, workbench, rectangle);
+          //create3dBoxItemFromRectangle(terria, workbench, rectangle);
           drawModeButton.closeMode();
         });
         userDrawing.enterDrawMode();
@@ -53,6 +56,49 @@ function createUserRectangleDrawing(
   });
 
   return userDrawing;
+}
+
+function create3dGeojsonItemFromRectangle(
+  terria: Terria,
+  workbench: Workbench,
+  rectangle: Rectangle
+) {
+  const item = new GeoJsonCatalogItem(createGuid(), terria);
+  item.setTrait(CommonStrata.user, "name", "User drawn rectangle");
+  item.setTrait(CommonStrata.user, "geoJsonData", {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [
+                CesiumMath.toDegrees(rectangle.west),
+                CesiumMath.toDegrees(rectangle.north)
+              ],
+              [
+                CesiumMath.toDegrees(rectangle.east),
+                CesiumMath.toDegrees(rectangle.north)
+              ],
+              [
+                CesiumMath.toDegrees(rectangle.east),
+                CesiumMath.toDegrees(rectangle.south)
+              ],
+              [
+                CesiumMath.toDegrees(rectangle.west),
+                CesiumMath.toDegrees(rectangle.south)
+              ]
+            ]
+          ]
+        }
+      }
+    ]
+  });
+  terria.addModel(item);
+  workbench.add(item);
 }
 
 function create3dBoxItemFromRectangle(
