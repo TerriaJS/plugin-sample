@@ -61,7 +61,6 @@ We currently suggest using yarn workspaces to develop plugins for terriamap. Fol
 
 ```bash
 cd terriamap/
-git checkout plugins # checkout plugins branch
 mkdir -p packages
 git clone https://github.com/terriajs/plugin-sample packages/plugin-sample
 ```
@@ -85,8 +84,8 @@ Edit `package.json` for terriamap:
    
    "dependencies": {
     "pm2": "^3.2.2",
-    "terriajs-plugin-api": "0.0.1-alpha.3",
-    "terriajs-plugin-sample": "0.0.1-alpha.3", // <-- plugin-sample version changed to match the version in packages/plugin-sample/package.json
+    "terriajs-plugin-api": "0.0.1-alpha.5",
+    "terriajs-plugin-sample": "0.0.1-alpha.6", // <-- plugin-sample version changed to match the version in packages/plugin-sample/package.json
 ```
 
 ### Build terriamap 
