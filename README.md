@@ -19,11 +19,9 @@ Terria plugins simply provide a means of building functionality for Terria outsi
 
 # Adding this plugin to your terriamap
 
-### Clone terriamap (plugins branch)
+### Clone terriamap
 ```bash
 git clone https://github.com/terriajs/terriamap
-cd terriamap
-git checkout plugins
 ```
 
 ### Add this plugin as dependency to package.json
