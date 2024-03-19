@@ -1,5 +1,3 @@
-<i>🚧 Warning: This project is work-in-progress and things can break or be entirely scrapped without notice.</i>
-
 # What?
 
 This repo implements a sample TerriaJS plugin. It uses the experimental [terriajs-plugin-api](https://github.com/terriajs/plugin-api) to interface with the TerriaJS library.
