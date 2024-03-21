@@ -26,7 +26,7 @@ Additional documentation for developing with terria is available at
 
 
 This plugin repository is a work in progress and will be updated as the different
-APIs evolve. Meanwhile expect breaking changes.
+APIs evolve. Meanwhile expect breaking changes 👷
 
 ### Current status
 - [x] Load external plugins in TerriaJS at build time
