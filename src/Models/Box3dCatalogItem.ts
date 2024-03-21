@@ -1,4 +1,4 @@
-import { action, computed } from "mobx";
+import { action, computed, override } from "mobx";
 import Cartesian3 from "terriajs-cesium/Source/Core/Cartesian3";
 import Cartographic from "terriajs-cesium/Source/Core/Cartographic";
 import HeadingPitchRoll from "terriajs-cesium/Source/Core/HeadingPitchRoll";
@@ -8,9 +8,9 @@ import Quaternion from "terriajs-cesium/Source/Core/Quaternion";
 import Rectangle from "terriajs-cesium/Source/Core/Rectangle";
 import Transforms from "terriajs-cesium/Source/Core/Transforms";
 import TranslationRotationScale from "terriajs-cesium/Source/Core/TranslationRotationScale";
+import createGuid from "terriajs-cesium/Source/Core/createGuid";
 import {
   BoxDrawing,
-  CatalogMemberFactory,
   CatalogMemberMixin,
   CommonStrata,
   CreateModel,
@@ -18,22 +18,25 @@ import {
   Icon,
   LatLonHeightTraits,
   MapItem,
+  MapToolbar,
   MappableMixin,
-  runWorkflow,
   Terria,
-  ViewingControl,
-  ViewState
+  ViewState,
+  ViewingControl
 } from "terriajs-plugin-api";
-import EditBoxTransformWorkflow from "./EditBoxTransformWorkflow";
-import BoxDrawingCatalogItemTraits, {
+import { toolId } from "..";
+import Box3dCatalogItemTraits, {
   DimensionsTraits
-} from "./Traits/BoxDrawingCatalogItemTraits";
+} from "./Traits/Box3dCatalogItemTraits";
 
-export default class BoxDrawingCatalogItem extends CatalogMemberMixin(
-  MappableMixin(CreateModel(BoxDrawingCatalogItemTraits))
+/**
+ * A custom Terria catalog item that shows a 3D box on the map.
+ */
+export default class Box3dCatalogItem extends CatalogMemberMixin(
+  MappableMixin(CreateModel(Box3dCatalogItemTraits))
 ) {
-  static readonly type = "box-drawing";
-  readonly type = BoxDrawingCatalogItem.type;
+  static readonly type = "box-3d";
+  readonly type = Box3dCatalogItem.type;
 
   private boxDrawing: BoxDrawing | undefined;
 
@@ -41,19 +44,49 @@ export default class BoxDrawingCatalogItem extends CatalogMemberMixin(
     super(id, terria);
   }
 
+  static fromRectangle(rectangle: Rectangle, terria: Terria) {
+    // Create an instance of our `BoxDrawingCatalogItem`.
+    const boxDrawingItem = new Box3dCatalogItem(createGuid(), terria);
+
+    // There are a bunch of concepts to understand here.
+    // 1. What does `setTrait` do?
+    // Traits are the serializable properties of a model. They are set using the
+    // `setTrait` method.  Here we set the `name` trait for the model. The first
+    // parameter `CommonStrata.user` is the "stratum" on which to set the trait
+    // value. In terria the value of a trait can originate from different sources,
+    // the server, the catalog configuration file, or user changes. Values from each
+    // of these origins are recorded separately in what is called a "stratum".  Each
+    // stratum has a priority and the visible value of a trait is its value in the
+    // highest priority stratum. The "user" stratum has the highest priority. If a
+    // value is not defined in the user stratum, then it is checked in the lower
+    // strata until we find a value or otherwise return `undefined`.  Here we set
+    // the property on the `user` stratum as the change was made by a user action.
+    boxDrawingItem.setTrait(CommonStrata.user, "name", `3D box`);
+
+    // Later, to access the trait value use `boxDrawingItem.name`
+    boxDrawingItem.positionBoxFromRectangle(rectangle);
+
+    // 2. What does `addModel` do?
+    // `addModel` registers the model we just created with Terria. This is
+    // important for the model to become part of various lifecycle methods.
+    // eg: When a user creates a share link, the model will be part of the share
+    // link only if it is added to the Terria instance.
+    terria.addModel(boxDrawingItem);
+
+    return boxDrawingItem;
+  }
+
   /**
-   * A catalog item lifecycle method which will be called
-   * when the item is added to the workbench and just before the call to `mapItems`.
-   * If the catalog item requires loading data over the network to generate its `mapItems`
-   * then this is the right place to do it. For this catalog item it is a noop.
+   * A catalog item lifecycle method which will be called to load any data that is required to display the item on the map.
+   * This method will be called just before the call to `mapItems`.
+   * In this case though, we do not require any additional data for displaying this catalog item, so it is a no-op.
    */
   forceLoadMapItems(): Promise<void> {
     return Promise.resolve();
   }
 
   /**
-   * Returns array of map items that will be shown on the map when this catalog item is
-   * added to the workbench.
+   * Returns array of mappable items to be shown on the map when user loads this catalog item to the workbench.
    */
   @computed
   get mapItems(): MapItem[] {
@@ -63,13 +96,11 @@ export default class BoxDrawingCatalogItem extends CatalogMemberMixin(
       if (!this.boxDrawing) {
         this.boxDrawing = BoxDrawing.fromTranslationRotationScale(
           cesium,
-          this.translationRotationScale,
+          this.trs,
           {
             keepBoxAboveGround: true,
             onChange: ({ translationRotationScale }) => {
-              this.setTraitsFromTranslationRotationScale(
-                translationRotationScale
-              );
+              this.updateTraits(translationRotationScale);
             }
           }
         );
@@ -80,10 +111,8 @@ export default class BoxDrawingCatalogItem extends CatalogMemberMixin(
     }
 
     if (this.boxDrawing) {
-      // Copy any trs updates on item to the boxDrawing
-      this.boxDrawing.setTranslationRotationScale(
-        this.translationRotationScale
-      );
+      // Copy any TRS updates on item to the boxDrawing
+      this.boxDrawing.setTranslationRotationScale(this.trs);
 
       // Show the cesium datasource only if the catalog item is shown.
       this.boxDrawing.dataSource.show = this.show;
@@ -94,23 +123,21 @@ export default class BoxDrawingCatalogItem extends CatalogMemberMixin(
   }
 
   /**
-   * By definiing `viewingControls` a catalog item can extend its viewing control menu.
-   * This is 3-dot menu of a catalog item in the workbench.
+   * By defining `viewingControls` a catalog item can extend its viewing control menu.
+   * This is the 3-dot menu of an item in the workbench.
    *
-   * Another way to extend the viewing controls menu is using
-   * the `{@link ViewingControlsMenu.addMenuOption} function.
    */
-  @computed
+  @override
   get viewingControls(): ViewingControl[] {
     return [
       {
-        id: "edit-box-transform",
-        name: "Edit box",
+        id: "view-box-measurements",
+        name: "Measure",
         icon: {
           glyph: Icon.GLYPHS.cube
         },
         onClick: (viewState: ViewState) => {
-          runWorkflow(viewState, new EditBoxTransformWorkflow(this));
+          MapToolbar.openTool(viewState, toolId, { boxItem: this });
         }
       }
     ];
@@ -142,11 +169,14 @@ export default class BoxDrawingCatalogItem extends CatalogMemberMixin(
 
     const scale = new Cartesian3(width, length, height);
     const trs = new TranslationRotationScale(center, rotation, scale);
-    this.setTraitsFromTranslationRotationScale(trs);
+    this.updateTraits(trs);
   }
 
+  /**
+   * Update translation, rotation and scale traits for the item
+   */
   @action
-  private setTraitsFromTranslationRotationScale(trs: TranslationRotationScale) {
+  private updateTraits(trs: TranslationRotationScale) {
     LatLonHeightTraits.setFromCartesian(
       this.position,
       CommonStrata.user,
@@ -166,8 +196,11 @@ export default class BoxDrawingCatalogItem extends CatalogMemberMixin(
     );
   }
 
+  /**
+   * Returns the current translation, rotation and scale of the box
+   */
   @computed
-  get translationRotationScale(): TranslationRotationScale {
+  get trs(): TranslationRotationScale {
     const position = Cartographic.toCartesian(
       Cartographic.fromDegrees(
         this.position.longitude ?? 0,
@@ -193,13 +226,14 @@ export default class BoxDrawingCatalogItem extends CatalogMemberMixin(
     const trs = new TranslationRotationScale(position, rotation, scale);
     return trs;
   }
-}
 
-/**
- * Register this catalog item so that Terria can correctly initialize it from
- * a catalog json configuration file.
- */
-CatalogMemberFactory.register(
-  BoxDrawingCatalogItem.type,
-  BoxDrawingCatalogItem
-);
+  /**
+   * Returns the height of the bottom face from the ground
+   */
+  @computed
+  get bottomHeight(): number {
+    return this.position.height !== undefined
+      ? this.position.height - this.trs.scale.z / 2
+      : 0;
+  }
+}
