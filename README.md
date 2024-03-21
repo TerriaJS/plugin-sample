@@ -24,8 +24,8 @@ Additional documentation for developing with terria is available at
 [https://docs.terria.io](https://docs.terria.io/). You can also reach us through our [discussion forum](https://github.com/TerriaJS/terriajs/discussions) if you require additional help.
 
 
-This plugin repository is a work in progress and will be updated as the plugin
-interfaces evolve. Meanwhile expect breaking changes.
+This plugin repository is a work in progress and will be updated as the different
+APIs evolve. Meanwhile expect breaking changes.
 
 ### Current status
 - [x] Load external plugins in TerriaJS at build time
