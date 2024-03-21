@@ -48,7 +48,7 @@ cd terriamap
 yarn add -W 'terriajs-plugin-sample'
 ```
 
-### Add it to the plugin loader file `plugins.ts`
+### Add it to the plugin registry file `plugins.ts`
 ```typescript
 const plugins: any[] = [
   import("terriajs-plugin-sample")
