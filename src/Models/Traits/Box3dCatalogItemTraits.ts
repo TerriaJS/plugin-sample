@@ -47,7 +47,7 @@ export class DimensionsTraits extends ModelTraits {
   }
 }
 
-export default class BoxDrawingCatalogItemTraits extends mixTraits(
+export default class Box3dCatalogItemTraits extends mixTraits(
   MappableTraits,
   CatalogMemberTraits
 ) {

@@ -20,9 +20,9 @@ export default {
   },
   // preserveSymlinks is required to prevent rollup from expanding references to packages in yarn workspace to relative paths
   preserveSymlinks: true,
-  external: depPath => {
+  external: (depPath) => {
     // exclude files in exclusionList from the build pipeline
-    return externalPaths.some(ext => {
+    return externalPaths.some((ext) => {
       if (typeof ext === "string") {
         return depPath === ext;
       } else if (ext instanceof RegExp) {
@@ -32,7 +32,7 @@ export default {
       }
     });
   },
-  plugins: [nodeResolve(), resolveSvgIcons(), typescript(), terser()]
+  plugins: [nodeResolve(), resolveSvgIcons(), typescript() /*terser()*/]
 };
 
 /**
