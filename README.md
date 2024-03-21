@@ -18,6 +18,7 @@ library and are pre-requisites for understanding the code:
 - [mobx](https://mobx.js.org/) - Reactive state management library
 - [ReactJS](https://react.dev/)
 - [styled-components](https://styled-components.com/)
+- [yarn](yarnpkg.com) - Package manager
 
 
 Additional documentation for developing with terria is available at
