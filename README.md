@@ -82,11 +82,12 @@ terriamap/
 The `terriajs` and  `plugin-sample` repositories must be checked out under `terriamap/packages/` folder
 
 
-### Checkout the plugin into packages folder
+### Checkout terriajs and sample-plugin into the packages folder
 
 ```bash
 cd terriamap/
 mkdir -p packages
+git clone https://github.com/terriajs/terriajs packages/terriajs
 git clone https://github.com/terriajs/plugin-sample packages/plugin-sample
 ```
 
@@ -108,13 +109,13 @@ Edit `package.json` for terriamap:
    ...
    
    "dependencies": {
-    "terriajs-plugin-api": "0.0.1-alpha.5",
-    "terriajs-plugin-sample": "0.0.1-alpha.6", // <-- plugin-sample version should match the version in packages/plugin-sample/package.json
+    "terriajs-plugin-api": "0.0.1-alpha.16",
+    "terriajs-plugin-sample": "0.0.1-alpha.8", // <-- plugin-sample version should match the version in packages/plugin-sample/package.json
 ```
 
 ### Build terriamap 
 
-From your terriamap folder run:
+From your `terriamap` folder run:
 
 ```bash
 yarn install
