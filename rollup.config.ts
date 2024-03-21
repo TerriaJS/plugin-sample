@@ -32,7 +32,12 @@ export default {
       }
     });
   },
-  plugins: [nodeResolve(), resolveSvgIcons(), typescript() /*terser()*/]
+  plugins: [
+    nodeResolve(),
+    resolveSvgIcons(),
+    typescript()
+    /*terser() // enable terser if you want to minify your code */
+  ]
 };
 
 /**
