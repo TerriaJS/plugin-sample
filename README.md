@@ -21,7 +21,7 @@ library and are pre-requisites for understanding the code:
 
 
 Additional documentation for developing with terria is available at
-[https://docs.terria.io/](https://docs.terria.io/). You can also reach us [through our discussion](https://github.com/TerriaJS/terriajs/discussions) forum if you require additional help.
+[https://docs.terria.io](https://docs.terria.io/). You can also reach us through our [discussion forum](https://github.com/TerriaJS/terriajs/discussions) if you require additional help.
 
 
 This plugin repository is a work in progress and will be updated as the plugin
