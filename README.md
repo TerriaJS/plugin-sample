@@ -120,7 +120,7 @@ From your `terriamap` folder run:
 
 ```bash
 yarn install
-# Starts a terriamap build process that watches for file changes
+# Starts a terriamap dev server that watches for file changes and rebuilds the map
 yarn run gulp dev
 ```
 
