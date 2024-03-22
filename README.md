@@ -72,6 +72,8 @@ Once the server is running visit http://localhost:3001 to load the app. You shou
 
 # Plugin development workflow
 
+This sections requires you to have completed the steps for [adding the plugin to your terriamap](https://github.com/TerriaJS/plugin-sample/edit/main/README.md#adding-the-plugin-to-your-terriamap).
+
 Developing the plugin requires correctly setting up the yarn workspace. Your local directory structure should look something like:
 ```
 terriamap/
