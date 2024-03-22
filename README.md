@@ -132,6 +132,8 @@ cd terriamap/packages/plugin-sample
 yarn run watch
 ```
 
-Start making make changes to the plugin code, terriamap will automatically
-rebuild the changes. Note that the page doesn't reload automatically, so you
-will need to refresh to see the changes.
+Note: you need to keep both the yarn commands running, then start making make changes to the plugin code, terriamap will automatically
+rebuild your changes. 
+
+Watch for errors from the plugin build process. Note that the app page doesn't reload automatically when the code rebuilds., you
+will need to refresh the page to see the changes.
