@@ -135,5 +135,5 @@ yarn run watch
 Note: you need to keep both the yarn commands running, then start making make changes to the plugin code, terriamap will automatically
 rebuild your changes. 
 
-Watch for errors from the plugin build process. Note that the app page doesn't reload automatically when the code rebuilds., you
-will need to refresh the page to see the changes.
+Watch for errors from the plugin build process. Note that the app page doesn't reload automatically when the code rebuilds, you
+have to refresh the page to see your changes.
