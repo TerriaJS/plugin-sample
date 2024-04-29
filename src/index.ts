@@ -6,6 +6,7 @@ import {
   TerriaPluginContext
 } from "terriajs-plugin-api";
 import Box3dCatalogItem from "./Models/Box3dCatalogItem";
+import withSvgSprite from "../lib/withSvgSprite";
 
 export const toolId = "3d-box-tool";
 
@@ -14,6 +15,7 @@ const plugin: TerriaPlugin = {
   description:
     "A sample plugin that provides a tool for drawing a 3D Box and viewing its measurements.",
   version: "0.0.1",
+
   register({ viewState }: TerriaPluginContext) {
     // Register our custom catalog item with Terria
     CatalogMemberFactory.register(Box3dCatalogItem.type, Box3dCatalogItem);
@@ -34,4 +36,4 @@ const plugin: TerriaPlugin = {
   }
 };
 
-export default plugin;
+export default withSvgSprite(plugin);

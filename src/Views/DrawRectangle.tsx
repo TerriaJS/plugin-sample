@@ -17,7 +17,7 @@ export const DrawRectangle: React.FC<PropsType> = ({ onDrawingComplete }) => {
       onDrawingComplete: ({ rectangle }) => {
         onDrawingComplete(rectangle);
       }
-    });
+    }, [terria]);
     userDrawing.enterDrawMode();
 
     return () => {
