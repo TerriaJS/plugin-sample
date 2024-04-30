@@ -1,1 +1,5 @@
-Note: This folder contains plugin library code. The code for your plugin must be placed in the [src](../src) folder.
+👉 Note: 
+
+This folder contains plugin library code. 
+
+The code for your plugin should go under [src](../src) folder.
