@@ -6,6 +6,9 @@ import { intersect as semverIntersect } from "semver-intersect";
 import findYarnWorkspaceRoot from "./findYarnWorkspaceRoot.js";
 import isMain from "./isMain.js";
 
+/**
+ * Checks if the plugin development environment is sane.
+ */
 async function checkDevEnv() {
   const checks = {
     mapWorkspace: { name: "Find map workspace", fn: checkMapWorkspace },
@@ -76,6 +79,9 @@ async function checkMapWorkspace(out, context) {
       : { ok: `Yes (${workspace.dir})`, workspace };
 }
 
+/**
+ * Check if the plugin directory is checked out under a terriamap workspace.
+ */
 async function checkPluginAddedToWorkspace(out, { workspace, pluginDir }) {
   const relativePluginDir = path.relative(workspace.dir, pluginDir);
   const addedToWorkspace = workspace.packages.some((pattern) =>
@@ -88,6 +94,9 @@ async function checkPluginAddedToWorkspace(out, { workspace, pluginDir }) {
       };
 }
 
+/**
+ * Check if `dependencies` in terriamap/package.json includes this plugin.
+ */
 async function checkPluginAddedToDeps(out, { workspace, packageJson }) {
   const packageName = packageJson.name;
   const packageDep = workspace.packageJson?.["dependencies"]?.[packageName];
@@ -98,6 +107,9 @@ async function checkPluginAddedToDeps(out, { workspace, packageJson }) {
       };
 }
 
+/**
+ * Check whether terriamap/package.json has the correct version of this plugin.
+ */
 async function checkPluginVersions(out, { workspace, pluginDir, packageJson }) {
   const packageName = packageJson?.name;
   const localVersion = packageJson?.version;
@@ -132,6 +144,9 @@ async function checkPluginVersions(out, { workspace, pluginDir, packageJson }) {
   return true;
 }
 
+/**
+ * Check whether the version of terriajs-plugin-api dependency for this plugin and terriamap, both match.
+ */
 async function checkApiVersions(out, { workspace, pluginDir, packageJson }) {
   const localVersion = Object.assign(
     {},
@@ -170,6 +185,9 @@ async function checkApiVersions(out, { workspace, pluginDir, packageJson }) {
   return true;
 }
 
+/**
+ * Check if importing the plugin correctly resolves to this plugin directory.
+ */
 async function checkPluginImportResolvesCorrectly(
   out,
   { workspace, pluginDir, packageJson }
@@ -184,16 +202,29 @@ async function checkPluginImportResolvesCorrectly(
         };
 }
 
+/**
+ * Check if the plugin has been added to terriamap/plugins.ts.
+ */
 async function checkPluginAddedToRegistry(out, { workspace, packageJson }) {
-  const name = packageJson.name;
+  // Transpile the plugins.ts file to JS and check if it imports this plugin library
   const pluginRegistryFile = path.join(workspace.dir, "plugins.ts");
-  const pluginRegistry = await fs
-    .readFile(pluginRegistryFile, "utf-8")
-    .catch(() => "");
-  const addedToRegistry = !!pluginRegistry.match(
-    new RegExp(`import.*?"${name}"`)
-  );
-  out.result = addedToRegistry
+  const esbuild = await import("esbuild");
+  const pluginsJs = await esbuild
+    .build({
+      entryPoints: [pluginRegistryFile],
+      write: false,
+      minify: true
+    })
+    .then((out) => out.outputFiles[0].text);
+
+  const pluginsFn = await import(
+    `data:text/javascript;base64,${btoa(pluginsJs)}`
+  ).then((module) => module.default.toString());
+
+  const name = packageJson.name;
+  const importsPlugin = pluginsFn.includes(`import("${name}")`);
+
+  out.result = importsPlugin
     ? { ok: "Yes" }
     : {
         error: `"${name}" missing in plugin registry file '${pluginRegistryFile}'`
