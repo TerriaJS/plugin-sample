@@ -29,7 +29,7 @@ const Main: React.FC<PropsType> = (props) => {
       // Add it to the workbench so that it appears on the map
       terria.workbench.add(boxItem);
     }
-  }, []);
+  }, [terria]);
 
   // WorkflowPanel opens as a left-side panel replacein the Workbench
   // It can be used to implement custom workflow UIs
