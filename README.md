@@ -1,4 +1,4 @@
-# TerriaJS sample plugin
+# 🔌 TerriaJS sample plugin
 
 This repository implements a sample TerriaJS plugin which adds a custom tool to
 Terria map for drawing an interactive 3D box.
