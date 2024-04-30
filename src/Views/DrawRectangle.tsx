@@ -17,13 +17,13 @@ export const DrawRectangle: React.FC<PropsType> = ({ onDrawingComplete }) => {
       onDrawingComplete: ({ rectangle }) => {
         onDrawingComplete(rectangle);
       }
-    }, [terria]);
+    });
     userDrawing.enterDrawMode();
 
     return () => {
       userDrawing.endDrawing();
     };
-  }, []);
+  }, [terria, onDrawingComplete]);
 
   return <p>Draw a rectangle on the screen to create a box</p>;
 };
