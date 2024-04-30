@@ -1,9 +1,10 @@
 # TerriaJS sample plugin
 
-This repository implements a sample TerriaJS plugin. This plugin implements a
-custom tool for drawing an interactive 3D box on the map. It serves as an
-example for setting up an loading an external plugin library that adds some new
-functionality to Terria without forking it.
+This repository implements a sample TerriaJS plugin which adds a custom tool to
+Terria map for drawing an interactive 3D box.
+
+It serves as an example for setting up and loading an external plugin library
+that adds new functionality to Terria without forking it.
 
 Plugins allow extending Terria in two ways:
 
